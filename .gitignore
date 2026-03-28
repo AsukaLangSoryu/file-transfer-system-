@@ -31,3 +31,4 @@ web/backend/uploads/*
 # Temporary files
 *.tmp
 *.bak
+test_files/big_test.txt
