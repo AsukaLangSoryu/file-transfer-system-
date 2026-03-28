@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "pixso-desktop": {
+      "transport": "http",
+      "url": "http://127.0.0.1:3667/mcp",
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}

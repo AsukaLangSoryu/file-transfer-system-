@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m pytest tests/ -v)",
+      "Bash(python -m unittest discover tests -v)",
+      "Bash(python -m unittest tests.test_sender tests.test_receiver -v)",
+      "Bash(python -m unittest tests.test_connection -v)",
+      "Bash(taskkill /F /IM node.exe)",
+      "Bash(kill:*)",
+      "Bash(python main.py)"
+    ]
+  }
+}

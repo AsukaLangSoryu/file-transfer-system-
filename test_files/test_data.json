@@ -1,0 +1,15 @@
+{
+  "name": "test_data.json",
+  "type": "JSON测试文件",
+  "size": "small",
+  "content": {
+    "students": [
+      {"id": 1, "name": "张三", "score": 95},
+      {"id": 2, "name": "李四", "score": 88},
+      {"id": 3, "name": "王五", "score": 92}
+    ],
+    "course": "计算机网络",
+    "semester": "2025-2026学年第二学期"
+  },
+  "test_purpose": "测试JSON文件的传输和预览功能"
+}

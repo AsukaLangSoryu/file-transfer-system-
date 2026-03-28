@@ -1,0 +1,28 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "src": "src/pages/Server.tsx"
+    },
+    {
+      "path": "/client",
+      "src": "src/pages/Client.tsx"
+    },
+    {
+      "path": "/files",
+      "src": "src/pages/Files.tsx"
+    },
+    {
+      "path": "/broadcast",
+      "src": "src/pages/Broadcast.tsx"
+    }
+  ],
+  "components": [
+    {"name": "Sidebar", "src": "src/components/Sidebar.tsx"},
+    {"name": "ServerStatusCard", "src": "src/components/ServerStatusCard.tsx"},
+    {"name": "UserItem", "src": "src/components/UserItem.tsx"},
+    {"name": "TransferItem", "src": "src/components/TransferItem.tsx"},
+    {"name": "FileCard", "src": "src/components/FileCard.tsx"},
+    {"name": "UploadArea", "src": "src/components/UploadArea.tsx"}
+  ]
+}
