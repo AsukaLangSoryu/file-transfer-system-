@@ -48,7 +48,7 @@ class TransferManager:
             self.active_transfers[transfer_id]["progress"] = progress
             await broadcast_transfer_update(transfer_id, self.active_transfers[transfer_id])
 
-transfer_manager = TransferManager(max_concurrent=3)
+transfer_manager = TransferManager(max_concurrent=8)
 
 
 async def broadcast_transfer_update(transfer_id: str, data: dict):
@@ -168,9 +168,15 @@ async def preview_file(filename: str):
 
     file_type = get_file_type(filename)
     if file_type == "document":
-        async with aiofiles.open(file_path, 'r', encoding='utf-8') as f:
-            content = await f.read()
-        return {"type": "text", "content": content}
+        # 尝试多种编码
+        for encoding in ['utf-8', 'gbk', 'gb2312', 'latin-1']:
+            try:
+                async with aiofiles.open(file_path, 'r', encoding=encoding) as f:
+                    content = await f.read()
+                return {"type": "text", "content": content}
+            except (UnicodeDecodeError, LookupError):
+                continue
+        raise HTTPException(status_code=500, detail="Cannot decode file")
     else:
         return FileResponse(file_path)
 

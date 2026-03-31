@@ -6,17 +6,19 @@
 
 - **前端**: React 18 + TypeScript + Tailwind CSS + Vite + Ant Design
 - **后端**: Python FastAPI + asyncio + WebSocket
-- **并发控制**: asyncio.Semaphore(3) 实现3线程并发上传
+- **并发控制**: asyncio.Semaphore(8) 实现8线程并发上传
+- **状态管理**: React Context API（WebSocket全局连接）
 
 ## 功能特性
 
-✅ 多线程文件上传（≥3并发）
+✅ 多线程文件上传（8并发）
 ✅ 文件列表管理（查看/下载/删除）
 ✅ 文件预览（文本/图片/视频）
 ✅ 实时搜索和类型筛选
 ✅ 群发广播（多用户文件分发）
 ✅ 多设备连接（WebSocket实时通信）
 ✅ 实时进度显示
+✅ 全局WebSocket连接管理
 
 ## 快速开始
 
@@ -51,6 +53,7 @@ npm run dev
 │   ├── src/
 │   │   ├── components/ # UI组件
 │   │   ├── pages/      # 页面组件
+│   │   ├── contexts/   # React Context（WebSocket全局连接）
 │   │   └── lib/        # API客户端
 │   └── package.json
 ├── web/backend/        # 后端项目

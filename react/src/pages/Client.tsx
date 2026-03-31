@@ -1,33 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { message } from "antd";
 import UploadArea from "../components/UploadArea";
 import TransferItem from "../components/TransferItem";
 import { ArrowDownUp } from "lucide-react";
+import { api } from "../lib/api";
+import { useWebSocket } from "../contexts/WebSocketContext";
 
 interface Transfer {
   filename: string;
   progress: number;
   status: "uploading" | "success";
   speed?: string;
+  startTime?: number;
+  loaded?: number;
 }
 
 const ClientPage: React.FC = () => {
   const [transfers, setTransfers] = useState<Transfer[]>([]);
+  const { addMessageHandler, removeMessageHandler } = useWebSocket();
+
+  useEffect(() => {
+    const handleMessage = (data: any) => {
+      if (data.type === 'broadcast') {
+        message.info({
+          content: `收到广播文件: ${data.filename}`,
+          duration: 5,
+          onClick: () => api.downloadFile(data.filename)
+        });
+      }
+    };
+
+    addMessageHandler('client', handleMessage);
+    return () => removeMessageHandler('client');
+  }, []);
 
   const handleUploadStart = (filename: string) => {
     setTransfers(prev => [...prev, {
       filename,
       progress: 0,
       status: "uploading",
-      speed: "0 MB/s"
+      speed: "0 MB/s",
+      startTime: Date.now(),
+      loaded: 0
     }]);
   };
 
-  const handleUploadProgress = (filename: string, progress: number) => {
+  const handleUploadProgress = (filename: string, progress: number, loaded: number) => {
     setTransfers(prev => prev.map(t => {
       if (t.filename === filename) {
-        // 计算速度（简化版）
-        const speed = progress > 0 ? `${(Math.random() * 5 + 1).toFixed(1)} MB/s` : "0 MB/s";
-        return { ...t, progress, speed };
+        const elapsed = (Date.now() - (t.startTime || Date.now())) / 1000;
+        const speed = elapsed > 0 ? `${(loaded / 1024 / 1024 / elapsed).toFixed(1)} MB/s` : "0 MB/s";
+        return { ...t, progress, speed, loaded };
       }
       return t;
     }));

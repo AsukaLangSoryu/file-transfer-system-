@@ -4,7 +4,7 @@ import { api } from "../lib/api";
 
 interface UploadAreaProps {
   onUploadStart?: (filename: string) => void;
-  onUploadProgress?: (filename: string, progress: number) => void;
+  onUploadProgress?: (filename: string, progress: number, loaded: number) => void;
   onUploadComplete?: (filename: string) => void;
 }
 
@@ -23,8 +23,8 @@ const UploadArea: React.FC<UploadAreaProps> = ({
       onUploadStart?.(file.name);
 
       try {
-        await api.uploadFile(file, (progress) => {
-          onUploadProgress?.(file.name, progress);
+        await api.uploadFile(file, (progress, loaded) => {
+          onUploadProgress?.(file.name, progress, loaded);
         });
         onUploadComplete?.(file.name);
       } catch (error) {

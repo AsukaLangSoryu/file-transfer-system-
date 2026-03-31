@@ -5,7 +5,7 @@ const WS_URL = `ws://${window.location.hostname}:8000/ws`;
 // API客户端
 export const api = {
   // 上传文件
-  uploadFile: async (file: File, onProgress?: (progress: number) => void) => {
+  uploadFile: async (file: File, onProgress?: (progress: number, loaded: number) => void) => {
     const formData = new FormData();
     formData.append('file', file);
 
@@ -15,7 +15,7 @@ export const api = {
       xhr.upload.addEventListener('progress', (e) => {
         if (e.lengthComputable && onProgress) {
           const progress = Math.round((e.loaded / e.total) * 100);
-          onProgress(progress);
+          onProgress(progress, e.loaded);
         }
       });
 

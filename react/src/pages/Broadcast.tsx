@@ -1,25 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Select, Button, message, Upload } from "antd";
 import { Send, Users, Upload as UploadIcon } from "lucide-react";
-import { api, createWebSocket } from "../lib/api";
+import { api } from "../lib/api";
+import { useWebSocket } from "../contexts/WebSocketContext";
 
 const BroadcastPage: React.FC = () => {
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [selectedFile, setSelectedFile] = useState<string>("");
   const [uploadedFile, setUploadedFile] = useState<any>(null);
-  const [onlineUsers, setOnlineUsers] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const { onlineUsers } = useWebSocket();
 
   useEffect(() => {
     loadFiles();
-    const ws = createWebSocket((data) => {
-      if (data.type === 'users_update') {
-        setOnlineUsers(data.users);
-      }
-    });
-    return () => ws.close();
   }, []);
 
   const loadFiles = async () => {
